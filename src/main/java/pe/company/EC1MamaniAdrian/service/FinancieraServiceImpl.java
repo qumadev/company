@@ -1,11 +1,13 @@
 package pe.company.EC1MamaniAdrian.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 import pe.company.EC1MamaniAdrian.model.Financiera;
 import pe.company.EC1MamaniAdrian.repository.FinancieraRepository;
 
 import java.util.Collection;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class FinancieraServiceImpl implements FinancieraService{
@@ -14,27 +16,32 @@ public class FinancieraServiceImpl implements FinancieraService{
     private FinancieraRepository financieraRepository;
 
     @Override
+    @Transactional
     public void insert(Financiera financiera){
-        financieraRepository.insert(financiera);
+        financieraRepository.save(financiera);
     }
 
     @Override
+    @Transactional
     public void update(Financiera financiera){
-        financieraRepository.update(financiera);
+        financieraRepository.save(financiera);
     }
 
     @Override
+    @Transactional
     public void delete(int nroPrestamo){
-        financieraRepository.delete(nroPrestamo);
+        financieraRepository.deleteById(nroPrestamo);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Financiera findById(int nroPrestamo){
-        return financieraRepository.findById(nroPrestamo);
+        return financieraRepository.findById(nroPrestamo).orElse(null);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Collection<Financiera> findAll(){
-        return financieraRepository.findAll();
+        return (Collection<Financiera>)financieraRepository.findAll();
     }
 }

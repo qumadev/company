@@ -1,20 +1,37 @@
 package pe.company.EC1MamaniAdrian.model;
 
+import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.*;
 
-public class Financiera {
+@Entity
+@Table(name = "prestamos")
+public class Financiera implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int nroPrestamo;
+    @Temporal(TemporalType.DATE)
     private Date fPrestamo;
+    @Column
     private String financista;
+    @Column
     private String cliente;
+    @Column
     private double importe;
+    @Column
     private int nLetras;
+    @Column
     private double interes;
+    
 
-    public Financiera(Financiera financiera){
+    public Financiera() {
+		super();
+	}
+
+	public Financiera(Financiera financiera){
         this(financiera.getNroPrestamo(),financiera.getfPrestamo(),financiera.getFinancista(),financiera.getCliente(),
                 financiera.getImporte(), financiera.getnLetras(),financiera.getInteres());
     }
@@ -28,6 +45,11 @@ public class Financiera {
         this.nLetras = nLetras;
         this.interes = interes;
     }
+    
+	@PrePersist
+	public void prePersist() {
+		this.fPrestamo=new Date();
+	}
 
     public int getNroPrestamo() {
         return nroPrestamo;
